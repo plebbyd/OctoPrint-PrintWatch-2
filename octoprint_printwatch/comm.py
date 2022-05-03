@@ -64,7 +64,7 @@ class CommManager(octoprint.plugin.SettingsPlugin):
         else:
             data = self._create_payload(b64encode(self.image).decode('utf8'))
 
-        inference_request = Request('{}/inference/'.format(
+        inference_request = Request('{}/inference_cpu/'.format(
             self.parameters['route']),
             data=data,
             method='POST'
