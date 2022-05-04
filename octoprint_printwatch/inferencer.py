@@ -37,6 +37,7 @@ class Inferencer():
                         self._buffer_check()
                         if len(self.circular_buffer) == int(self.plugin._settings.get(["buffer_length"])):
                             self.current_percent = [i[0] for i in self.circular_buffer].count(True) / int(self.plugin._settings.get(["buffer_length"]))
+                            self.plugin._logger.info("Current percentage: {} | ".format( str(self.current_percent) ))
                             if self.current_percent >= int(self.plugin._settings.get(["buffer_percent"])) / 100.0:
                                 pause_condition = (not self.triggered or (not self.plugin._printer.is_pausing() and self.plugin._printer.is_printing())) and self.plugin._settings.get(["enable_shutoff"])
                                 if pause_condition:
