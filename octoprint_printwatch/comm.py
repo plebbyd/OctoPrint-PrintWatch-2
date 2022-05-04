@@ -103,6 +103,7 @@ class CommManager(octoprint.plugin.SettingsPlugin):
             self.image = bytearray(self.plugin.streamer.jpg)
         try:
             response = self._send()
+            self.plugin._logger.info("Response: {}".format(response))
             self.parameters['last_t'] = time()
             if response['statusCode'] == 200:
                 self.plugin.inferencer.pred = eval(response['defect_detected'])
