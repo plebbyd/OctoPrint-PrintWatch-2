@@ -39,8 +39,8 @@ class Inferencer():
             #pause/stop the print
             if not self.triggered:
                 self.plugin._logger.info("Action level reached")
-                self.plugin._logger.info("Enable shutoff: {}, Enable stop: {}".format(self.plugin._settings.get(["enable_shutoff"]), self.plugin._settings.get(["enable_stop"])))
                 self._attempt_action('pause') if self.plugin._settings.get(["enable_shutoff"]) else self._attempt_action('cancel')
+                self.triggered = True
         elif self.action_level[0]:
             if not self.warning_notification:
                 self.plugin._logger.info("Notification level reached")
@@ -73,6 +73,7 @@ class Inferencer():
     def start_service(self):
         self.triggered = False
         self.warning_notification = False
+        self.plugin.comm_manager.parameters['notification'] =  ''
         if self.plugin._settings.get(["enable_detector"]):
             if self.inference_loop is None:
                 self.run_thread = True
@@ -91,7 +92,6 @@ class Inferencer():
         self.action_level = []
         self.scores = []
         self.current_percent = 0.0
-        self.plugin.comm_manager.parameters['notification'] =  ''
         self.plugin._logger.info("PrintWatch inference service terminated")
         self.plugin._plugin_manager.send_plugin_message(self.plugin._identifier, dict(type="icon", icon='plugin/printwatch/static/img/printwatch-grey.png'))
 

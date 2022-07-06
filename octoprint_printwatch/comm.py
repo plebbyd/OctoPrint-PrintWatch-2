@@ -3,6 +3,7 @@ from urllib.request import Request, urlopen
 from socket import gethostbyname, gethostname
 from threading import Thread
 from time import time, sleep
+from datetime import datetime
 from threading import Lock
 from json import loads, dumps
 from base64 import b64encode
@@ -158,6 +159,7 @@ class CommManager(octoprint.plugin.SettingsPlugin):
         if self.plugin._settings.get(["enable_email_notification"]):
             try:
                 self.parameters['notification'] = notification_level
+                self.parameters['time'] = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
                 response = self._send('notify')
                 self.plugin._logger.info("Notification sent to {}".format(self.plugin._settings.get(["email_addr"])))
             except Exception as e:
