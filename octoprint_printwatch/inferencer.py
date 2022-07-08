@@ -13,7 +13,7 @@ class Inferencer():
         self.triggered = False
         self.warning_notification = False
         self.pred = False
-        self.REQUEST_INTERVAL = 2.0
+        self.REQUEST_INTERVAL = 10.0
         self.inference_loop = None
         self.action_level = []
         self.cooldown_time = 0.0
@@ -39,8 +39,12 @@ class Inferencer():
             #pause/stop the print
             if not self.triggered:
                 self.plugin._logger.info("Action level reached")
-                self._attempt_action('pause') if self.plugin._settings.get(["enable_shutoff"]) else self._attempt_action('cancel')
-                self.triggered = True
+                if self.plugin._settings.get(["enable_stop"]):
+                    self._attempt_action('cancel')
+                    self.triggered = True
+                elif self.plugin._settings.get(["enable_shutoff"]):
+                    self._attempt_action('pause')
+                    self.triggered = True
         elif self.action_level[0]:
             if not self.warning_notification:
                 self.plugin._logger.info("Notification level reached")
@@ -86,7 +90,7 @@ class Inferencer():
     def kill_service(self):
         self.run_thread = False
         self.inference_loop = None
-        self.REQUEST_INTERVAL = 2.0
+        self.REQUEST_INTERVAL = 10.0
         self.plugin.comm_manager.parameters['bad_responses'] = 0
         self.circular_buffer = []
         self.action_level = []

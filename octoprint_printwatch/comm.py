@@ -14,7 +14,7 @@ from PIL import ImageDraw
 import re
 
 
-DEFAULT_ROUTE = 'https://ai.simplyprint.io'
+DEFAULT_ROUTE = 'https://printwatch-printpal.pythonanywhere.com'
 
 class CommManager(octoprint.plugin.SettingsPlugin):
     def __init__(self, plugin):
@@ -93,7 +93,6 @@ class CommManager(octoprint.plugin.SettingsPlugin):
         self.plugin.inferencer.scores.append(response['score'])
         self.plugin.inferencer.action_level = response['levels']
         self.plugin.inferencer.smas.append(response['smas'][0])
-        self.plugin._logger.info("New SMA appended: {}".format(response['smas'][0]))
 
     def start_service(self):
         self.heartbeat = True
@@ -118,7 +117,7 @@ class CommManager(octoprint.plugin.SettingsPlugin):
                 self._appends(response)
                 self._check_action(response)
                 self.parameters['bad_responses'] = 0
-                self.plugin.inferencer.REQUEST_INTERVAL = 2.0
+                self.plugin.inferencer.REQUEST_INTERVAL = 10.0
                 boxes = eval(re.sub('\s+', ',', re.sub('\s+\]', ']', re.sub('\[\s+', '[', response['boxes'].replace('\n','')))))
                 self.plugin._plugin_manager.send_plugin_message(self.plugin._identifier, dict(type="display_frame", image=self.draw_boxes(boxes)))
                 self.plugin._plugin_manager.send_plugin_message(self.plugin._identifier, dict(type="icon", icon='plugin/printwatch/static/img/printwatch-green.gif'))
