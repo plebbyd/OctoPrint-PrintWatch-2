@@ -57,7 +57,7 @@ featuredimage: /assets/img/plugins/printwatch/printwatch.png
 compatibility:
 
   octoprint:
-  - 1.3.2
+  - 1.8.1
 
   os:
   - linux
@@ -74,7 +74,7 @@ compatibility:
 PrintWatch uses Artificial Intelligence to monitor your 3D prints for any defects that begin to form. The plugin takes the video feed from any camera compatible with OctoPrint and runs it through a Machine Learning model that detects print defects in real-time. The plugin takes actions set by the user once a failure is positively detected that include:
 
 - 📧 Email/SMS Notification
-- ⏸ Pausing the print job
+- ⏸ Pausing/Stopping the print job
 - 🔥 Turning off the Extruder Heat
 - ⚙ Customized actions created by the user
 
@@ -89,6 +89,8 @@ Current features include:
 
 Upcoming features include:
 
+- Pre+post print bed check
+- Live QC/QA
 - G-Code and Speed optimization with ML
 - MultiCamming
 - ROI selection and slicing

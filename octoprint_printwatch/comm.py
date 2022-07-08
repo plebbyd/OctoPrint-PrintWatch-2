@@ -59,11 +59,11 @@ class CommManager(octoprint.plugin.SettingsPlugin):
                 }).encode('utf8')
 
 
-    def _send(self, endpoint='infer_live'):
+    def _send(self, endpoint='inference'):
         data = self._create_payload() if endpoint =='heartbeat' else self._create_payload(b64encode(self.image).decode('utf8'))
 
         inference_request = Request(
-            '{}/api/v2/{}/'.format(self.parameters['route'], endpoint),
+            '{}/{}/'.format(self.parameters['route'], endpoint),
             data=data,
             method='POST',
             headers={'User-Agent': 'Mozilla/5.0'}
